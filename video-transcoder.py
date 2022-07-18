@@ -92,7 +92,7 @@ def _watch_progress(handler):
 def show_progress(total_duration):
     """Create a unix-domain socket to watch progress and render tqdm
     progress bar."""
-    with tqdm(total=round(total_duration, 2)) as bar:
+    with tqdm(total=round(total_duration, 2), dynamic_ncols=True) as bar:
         def handler(key, value):
             if key == 'out_time_ms':
                 time = round(float(value) / 1000000., 2)
