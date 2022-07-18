@@ -16,3 +16,8 @@ Merges various pdf files into another called "merged-pdf.pdf"
 Reduces the size of pdf files by doing several things, takes the following optional arguments:
   - --remove-images: removes all the images in the pdf
   - --compress: compresses the pdf
+
+## video-transcoder.py 
+Requires ffmpeg to work
+
+Transcodes a video from whatever codec and resolution it has to be 720p, h264 and mp4 for maximum compatibility, it also has a nice loading bar
