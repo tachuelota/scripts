@@ -32,9 +32,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     total_duration = float(ffmpeg.probe(args.in_filename)['format']['duration'])
     error = list()
-
-    # See https://ffmpeg.org/ffmpeg-filters.html#Examples-44
-    sepia_values = [.393, .769, .189, 0, .349, .686, .168, 0, .272, .534, .131]
+    
     try:
         video = (
             ffmpeg
