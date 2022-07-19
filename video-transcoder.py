@@ -103,7 +103,7 @@ if __name__ == '__main__':
         try:
             (ffmpeg
                 .input(args.in_filename)
-                .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "threads": f"{len(os.sched_getaffinity(0))}", "s": "hd720"})
+                .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "threads": f"{len(os.sched_getaffinity(0))}", "s": "hd720", "preset": "ultrafast", "tune": "film"})
                 .global_args('-progress', f'unix://{socket_filename}')
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
