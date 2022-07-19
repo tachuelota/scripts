@@ -1,10 +1,9 @@
 import argparse
-from os import system
 import ffmpeg
 
 count = -1
 filename = 'timestamps.txt'
-timestamps = {}
+timestamps = dict()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="file to split")

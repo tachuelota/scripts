@@ -10,10 +10,8 @@ import os
 import shutil
 import socket
 import sys
-import re
 import tempfile
 import textwrap
-
 
 parser = argparse.ArgumentParser(description=textwrap.dedent('''\
     Process video and report and show progress bar.
@@ -27,7 +25,6 @@ parser = argparse.ArgumentParser(description=textwrap.dedent('''\
 
 parser.add_argument('in_filename', help='Input filename')
 
-
 @contextlib.contextmanager
 def _tmpdir_scope():
     tmpdir = tempfile.mkdtemp()
@@ -36,12 +33,11 @@ def _tmpdir_scope():
     finally:
         shutil.rmtree(tmpdir)
 
-
 def _do_watch_progress(filename, sock, handler):
     """Function to run in a separate gevent greenlet to read progress
     events from a unix-domain socket."""
     connection, client_address = sock.accept()
-    data = b''
+    data = bytes()
     try:
         while True:
             more_data = connection.recv(16)
@@ -58,7 +54,6 @@ def _do_watch_progress(filename, sock, handler):
             data = lines[-1]
     finally:
         connection.close()
-
 
 @contextlib.contextmanager
 def _watch_progress(handler):
@@ -86,8 +81,6 @@ def _watch_progress(handler):
                 gevent.kill(child)
                 raise
 
-
-
 @contextlib.contextmanager
 def show_progress(total_duration):
     """Create a unix-domain socket to watch progress and render tqdm
@@ -102,7 +95,6 @@ def show_progress(total_duration):
         with _watch_progress(handler) as socket_filename:
             yield socket_filename
 
-
 if __name__ == '__main__':
     args = parser.parse_args()
     total_duration = float(ffmpeg.probe(args.in_filename)['format']['duration'])
@@ -112,7 +104,7 @@ if __name__ == '__main__':
             (ffmpeg
                 .input(args.in_filename)
                 .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "threads": f"{len(os.sched_getaffinity(0))}", "s": "hd720"})
-                .global_args(f'-progress', f'unix://{socket_filename}')
+                .global_args('-progress', f'unix://{socket_filename}')
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
             )
