@@ -17,6 +17,9 @@ Reduces the size of pdf files by doing several things, takes the following optio
   - --remove-images: removes all the images in the pdf
   - --compress: compresses the pdf
 
+## pdf2docx_mod.py
+Uses pdf2docx to convert a PDF to a DOCX file for editing, but splits all pages into individual pages to get around bugs
+
 ## video-transcoder.py 
 Requires ffmpeg to work
 
