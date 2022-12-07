@@ -9,9 +9,6 @@ Put the timestamps of the audio file to split in timestamps.txt along with the n
 ## organize_files.py
 Organizes files in a folder by extension
 
-## yt-downloader-mp3.py
-Asks the user to input a YouTube URL and then downloads the video as an mp3 files in a folder called "download", supports playlists
-
 ## pdf-merger.py
 Merges various pdf files into another called "merged-pdf.pdf"
 
@@ -27,3 +24,6 @@ Uses pdf2docx to convert a PDF to a DOCX file for editing, but splits all pages 
 Requires ffmpeg to work
 
 Transcodes a video from whatever codec and resolution it has to be 720p, h264 and mp4 for maximum compatibility, it also has a nice loading bar
+
+## yt-downloader-mp3.py
+Asks the user to input a YouTube URL and then downloads the video as an mp3 files in a folder called "download", supports playlists
