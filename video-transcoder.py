@@ -37,7 +37,7 @@ if __name__ == '__main__':
         video = (
             ffmpeg
                 .input(args.in_filename)
-                .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd720", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
+                .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
                 .global_args('-progress', 'pipe:1', "-hwaccel", "auto")
                 .overwrite_output()
                 .run_async(pipe_stdout=True, pipe_stderr=True)
