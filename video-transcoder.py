@@ -25,7 +25,7 @@ def transcode_video(filename):
         video = (
             ffmpeg
                 .input(filename)
-                .output(f"{args.in_filename[:filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "fast", "tune": "film", "x264-params": "opencl=true"})
+                .output(f"{args.in_filename[:filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
                 .global_args('-progress', 'pipe:1', "-hwaccel", "auto")
                 .overwrite_output()
                 .run_async(pipe_stdout=True, pipe_stderr=True)
