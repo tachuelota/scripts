@@ -54,6 +54,15 @@ def transcode_video(filename):
     except ffmpeg.Error as e:
         print(error, file=sys.stderr)
         sys.exit(1)
+
+def is_video_file(file_name):
+    video_extensions = ['.mp4', '.avi', '.mov', '.flv', '.wmv', '.mkv']
+    file_extension = os.path.splitext(file_name)[1]
+    
+    if file_extension in video_extensions:
+        return True
+    return False
+
 parser = argparse.ArgumentParser(description=textwrap.dedent('''\
     Process video and report and show progress bar.
 
@@ -73,4 +82,5 @@ if __name__ == '__main__':
         transcode_video(args.in_filename)
     elif(os.path.isdir(args.in_filename)):
         for filename in os.listdir(args.in_filename):
-            transcode_video(os.path.join(args.in_filename, filename))
+            if(is_video_file(filename)):
+                transcode_video(os.path.join(args.in_filename, filename))
