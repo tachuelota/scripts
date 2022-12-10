@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+
 import argparse
 import ffmpeg
 from queue import Queue
 import sys
+import os
 import textwrap
 from threading import Thread
 from tqdm import tqdm
@@ -15,29 +17,15 @@ def reader(pipe, queue):
     finally:
         queue.put(None)
 
-parser = argparse.ArgumentParser(description=textwrap.dedent('''\
-    Process video and report and show progress bar.
-
-    This is an example of using the ffmpeg `-progress` option with
-    stdout to report progress in the form of a progress bar.
-
-    The video processing simply consists of converting the video to
-    sepia colors, but the same pattern can be applied to other use
-    cases.
-'''))
-
-parser.add_argument('in_filename', help='Input filename')
-
-if __name__ == '__main__':
-    args = parser.parse_args()
-    total_duration = float(ffmpeg.probe(args.in_filename)['format']['duration'])
+def transcode_video(filename):
+    total_duration = float(ffmpeg.probe(filename)['format']['duration'])
     error = list()
     
     try:
         video = (
             ffmpeg
-                .input(args.in_filename)
-                .output(f"{args.in_filename[:args.in_filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
+                .input(filename)
+                .output(f"{args.in_filename[:filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "fast", "tune": "film", "x264-params": "opencl=true"})
                 .global_args('-progress', 'pipe:1', "-hwaccel", "auto")
                 .overwrite_output()
                 .run_async(pipe_stdout=True, pipe_stderr=True)
@@ -66,3 +54,23 @@ if __name__ == '__main__':
     except ffmpeg.Error as e:
         print(error, file=sys.stderr)
         sys.exit(1)
+parser = argparse.ArgumentParser(description=textwrap.dedent('''\
+    Process video and report and show progress bar.
+
+    This is an example of using the ffmpeg `-progress` option with
+    stdout to report progress in the form of a progress bar.
+
+    The video processing simply consists of converting the video to
+    sepia colors, but the same pattern can be applied to other use
+    cases.
+'''))
+
+parser.add_argument('in_filename', help='Input filename')
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    if(os.path.isfile(args.in_filename)):
+        transcode_video(args.in_filename)
+    elif(os.path.isdir(args.in_filename)):
+        for filename in os.listdir(args.in_filename):
+            transcode_video(os.path.join(args.in_filename, filename))
