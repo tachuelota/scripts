@@ -25,7 +25,7 @@ def transcode_video(filename):
         video = (
             ffmpeg
                 .input(filename)
-                .output(f"{args.in_filename[:filename.rfind('.')]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
+                .output(f"{os.path.splitext(filename)[0]}.mp4", format='mp4', **{"c:v": "h264", "s": "hd1080", "preset": "ultrafast", "tune": "film", "x264-params": "opencl=true"})
                 .global_args('-progress', 'pipe:1', "-hwaccel", "auto")
                 .overwrite_output()
                 .run_async(pipe_stdout=True, pipe_stderr=True)
@@ -84,3 +84,4 @@ if __name__ == '__main__':
         for filename in os.listdir(args.in_filename):
             if(is_video_file(filename)):
                 transcode_video(os.path.join(args.in_filename, filename))
+                os.remove(os.path.join(args.in_filename, filename))
