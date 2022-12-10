@@ -84,3 +84,4 @@ if __name__ == '__main__':
         for filename in os.listdir(args.in_filename):
             if(is_video_file(filename)):
                 transcode_video(os.path.join(args.in_filename, filename))
+                os.remove(os.path.join(args.in_filename, filename))
