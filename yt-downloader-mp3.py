@@ -13,4 +13,4 @@ ydl_opts = {
 }
 
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-    error_code = ydl.download(url)
+    ydl.download(url)

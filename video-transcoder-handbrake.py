@@ -25,7 +25,7 @@ def main():
     if(os.path.isdir(args.Directory)):
         for filename in os.listdir(args.Directory):
             if(is_video_file(filename)):
-                line = ""
+                line = str()
                 print(filename)
                 full_path = os.path.join(args.Directory, filename)
                 profile = ["HandBrakeCLI","-i",f"{full_path}","-o",f"{os.path.splitext(full_path)[0]}.mp4","-Z","Very Fast 1080p30"]
@@ -45,16 +45,16 @@ def main():
                         if matches:
                             print(matches.group())
 
-                        line = ""
+                        line = str()
                     else:
                         line += nl.decode('utf-8')
 
-                error = cp.stderr.read()
+                error = str(cp.stderr.read())
 
-                if 'Encode done!' in str(error):
+                if 'Encode done!' in error:
                     print("Done")
                 else:
-                    print(str(error))
+                    print(error)
                 os.remove(full_path)
 
 if __name__ == "__main__":
