@@ -5,8 +5,6 @@ import re
 import os
 import sys
 
-from clint.textui.progress import Bar
-
 from gooey import Gooey, GooeyParser
 
 def is_video_file(file_name):
@@ -57,7 +55,7 @@ def main():
                     print("Done")
                 else:
                     print(str(error))
-                #os.remove(full_path)
+                os.remove(full_path)
 
 if __name__ == "__main__":
     sys.exit(main())
