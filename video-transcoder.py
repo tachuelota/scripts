@@ -1,15 +1,16 @@
-#!/usr/bin/env python
-
-import argparse
+#!/usr/bin/env python3
+ 
 import ffmpeg
 from queue import Queue
 import sys
 import os
-import textwrap
 from threading import Thread
 from tqdm import tqdm
 
 from gooey import Gooey, GooeyParser
+
+from contextlib import redirect_stderr
+import io
 
 def reader(pipe, queue):
     try:
@@ -20,7 +21,7 @@ def reader(pipe, queue):
         queue.put(None)
 
 def is_video_file(file_name):
-    video_extensions = ['.mp4', '.avi', '.mov', '.flv', '.wmv', '.mkv']
+    video_extensions = ['.avi', '.mov', '.flv', '.wmv', '.mkv']
     file_extension = os.path.splitext(file_name)[1]
     
     if file_extension in video_extensions:
@@ -31,7 +32,7 @@ parser = GooeyParser()
 
 parser.add_argument('Directory', widget='DirChooser')
 
-@Gooey(progress_regex=r"(\d+)%")
+@Gooey(progress_regex=r"(\d+)%", hide_progress_msg=True)
 def main():
     args = parser.parse_args()
     if(os.path.isdir(args.Directory)):
@@ -55,22 +56,26 @@ def main():
                     Thread(target=reader, args=[video.stdout, q]).start()
                     Thread(target=reader, args=[video.stderr, q]).start()
                     bar = tqdm(total=round(total_duration, 2))
-                    for _ in range(2):
-                        for source, line in iter(q.get, None):
-                            line = line.decode()
-                            if source == video.stderr:
-                                error.append(line)
-                            else:
-                                line = line.rstrip()
-                                parts = line.split('=')
-                                key = parts[0] if len(parts) > 0 else None
-                                value = parts[1] if len(parts) > 1 else None
-                                if key == 'out_time_ms':
-                                    time = max(round(float(value) / 1000000., 2), 0)
-                                    bar.update(time - bar.n)
-                                elif key == 'progress' and value == 'end':
-                                    bar.update(bar.total - bar.n)
-                    bar.close()
+                    progress_bar_output = io.StringIO()
+                    with redirect_stderr(progress_bar_output):
+                        for _ in range(2):
+                            for source, line in iter(q.get, None):
+                                line = line.decode()
+                                if source == video.stderr:
+                                    error.append(line)
+                                else:
+                                    line = line.rstrip()
+                                    parts = line.split('=')
+                                    key = parts[0] if len(parts) > 0 else None
+                                    value = parts[1] if len(parts) > 1 else None
+                                    if key == 'out_time_ms':
+                                        time = max(round(float(value) / 1000000., 2), 0)
+                                        bar.update(time - bar.n)
+                                        print(progress_bar_output.read())
+                                    elif key == 'progress' and value == 'end':
+                                        bar.update(bar.total - bar.n)
+                                        print(progress_bar_output.read())
+                        bar.close()
                 except ffmpeg.Error as e:
                     print(error, file=sys.stderr)
                     sys.exit(1)
