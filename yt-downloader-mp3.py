@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import yt_dlp
 
 url = input("URL to download: ")

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from pdf2docx import Converter
 from docxcompose.composer import Composer
 from docx import Document as Document_compose
