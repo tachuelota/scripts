@@ -21,7 +21,7 @@ parser = GooeyParser()
 
 parser.add_argument('Directory', widget='DirChooser')
 
-@Gooey(progress_regex=r'.*(\d+\.\d+)\s%.*ETA\s(\d+)h(\d+)m(\d+)s\)', hide_progress_msg=True)
+@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True)
 def main():
     args = parser.parse_args()
     if(os.path.isdir(args.Directory)):
@@ -42,7 +42,7 @@ def main():
                     elif nl.hex() == '0d' and len(line) > 30:
 
                         # regex match for % complete and ETA, assuming the regex is ok.
-                        matches = re.match(r'.*(\d+\.\d+)\s%.*ETA\s(\d+)h(\d+)m(\d+)s\)', line)
+                        matches = re.match(r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", line)
 
                         if matches:
                             print(matches.group())
@@ -57,6 +57,7 @@ def main():
                     print("Done")
                 else:
                     print(str(error))
+                #os.remove(full_path)
 
 if __name__ == "__main__":
     sys.exit(main())
