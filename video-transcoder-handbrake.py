@@ -19,7 +19,11 @@ parser = GooeyParser()
 
 parser.add_argument('Directory', widget='DirChooser')
 
-@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True)
+@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True,
+timing_options={
+            'show_time_remaining':True,
+            'hide_time_remaining_on_complete':True
+        })
 def main():
     args = parser.parse_args()
     if(os.path.isdir(args.Directory)):
