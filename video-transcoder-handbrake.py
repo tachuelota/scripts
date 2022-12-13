@@ -10,10 +10,11 @@ from gooey import Gooey, GooeyParser
 def is_video_file(file_name):
     return os.path.splitext(file_name)[1] in ['.avi', '.mov', '.flv', '.wmv', '.mkv']
 
-parser = GooeyParser()
+parser = GooeyParser(description="Transcode all videos from a directory")
 
-parser.add_argument('Directory', widget='DirChooser')
-parser.add_argument('Quality', choices=["Very Fast 1080p30", "Very Fast 720p30"])
+parser.add_argument('Directory', help='Choose the directory to convert', widget='DirChooser')
+parser.add_argument('Quality', help='Pick the quality to convert to', choices=["Very Fast 1080p30", "Very Fast 720p30"])
+parser.add_argument('RemoveOnFinish', help='Delete the file when converted', action='store_true', default=True)
 
 @Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True, required_cols=1,
 timing_options={
@@ -53,9 +54,10 @@ def main():
 
                 if 'Encode done!' in error:
                     print("Done")
+                    if args.RemoveOnFinish:
+                        os.remove(full_path)
                 else:
                     print(error)
-                os.remove(full_path)
 
 if __name__ == "__main__":
     sys.exit(main())
