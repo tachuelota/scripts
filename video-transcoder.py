@@ -21,12 +21,7 @@ def reader(pipe, queue):
         queue.put(None)
 
 def is_video_file(file_name):
-    video_extensions = ['.avi', '.mov', '.flv', '.wmv', '.mkv']
-    file_extension = os.path.splitext(file_name)[1]
-    
-    if file_extension in video_extensions:
-        return True
-    return False
+    return os.path.splitext(file_name)[1] in ['.avi', '.mov', '.flv', '.wmv', '.mkv']
 
 parser = GooeyParser()
 

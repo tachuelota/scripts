@@ -2,15 +2,20 @@
 
 import argparse
 from PyPDF2 import PdfMerger
+import sys
 
-parser = argparse.ArgumentParser()
-parser.add_argument("files", help="files to merge", nargs='+', default=[])
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("files", help="files to merge", nargs='+', default=[])
+    args = parser.parse_args()
 
-merger = PdfMerger()
+    merger = PdfMerger()
 
-for pdf in args.files:
-    merger.append(pdf)
+    for pdf in args.files:
+        merger.append(pdf)
 
-merger.write("merged-pdf.pdf")
-merger.close()
+    merger.write("merged-pdf.pdf")
+    merger.close()
+
+if __name__ == "__main__":
+    sys.exit(main())
