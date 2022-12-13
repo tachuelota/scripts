@@ -13,8 +13,9 @@ def is_video_file(file_name):
 parser = GooeyParser()
 
 parser.add_argument('Directory', widget='DirChooser')
+parser.add_argument('Quality', choices=["Very Fast 1080p30", "Very Fast 720p30"])
 
-@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True,
+@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True, required_cols=1,
 timing_options={
             'show_time_remaining':True,
             'hide_time_remaining_on_complete':True
@@ -27,7 +28,7 @@ def main():
                 line = str()
                 print(filename)
                 full_path = os.path.join(args.Directory, filename)
-                profile = ["HandBrakeCLI","-i",f"{full_path}","-o",f"{os.path.splitext(full_path)[0]}.mp4","-Z","Very Fast 1080p30"]
+                profile = ["HandBrakeCLI","-i",f"{full_path}","-o",f"{os.path.splitext(full_path)[0]}.mp4","-Z",args.Quality]
                 cp = subprocess.Popen(profile, stderr=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
 
                 while True:
