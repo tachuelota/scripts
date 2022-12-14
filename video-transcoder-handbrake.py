@@ -7,7 +7,7 @@ import sys
 
 from gooey import Gooey, GooeyParser
 
-def is_video_file(file_name):
+def is_video_file(file_name: str):
     return os.path.splitext(file_name)[1] in ['.avi', '.mov', '.flv', '.wmv', '.mkv']
 
 parser = GooeyParser(description="Transcode all videos from a directory")

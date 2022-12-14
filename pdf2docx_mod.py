@@ -13,20 +13,20 @@ if(len(sys.argv) != 3):
 pdf_file = sys.argv[1]
 docx_file = sys.argv[2]
 
+def combine_all_docx(filename_master: str, files_list: list):
+    number_of_sections=len(files_list)
+    master = Document_compose(filename_master)
+    composer = Composer(master)
+    for i in range(0, number_of_sections):
+        doc_temp = Document_compose(files_list[i])
+        composer.append(doc_temp)
+    composer.save(docx_file)
+
 def main():
     files_to_merge = list()
 
     # Open the original PDF
     inputpdf = PyPDF2.PdfFileReader(open(pdf_file, "rb"))
-
-    def combine_all_docx(filename_master, files_list):
-        number_of_sections=len(files_list)
-        master = Document_compose(filename_master)
-        composer = Composer(master)
-        for i in range(0, number_of_sections):
-            doc_temp = Document_compose(files_list[i])
-            composer.append(doc_temp)
-        composer.save(docx_file)
 
     # Iterate through the pages
     for i in range(inputpdf.numPages):
