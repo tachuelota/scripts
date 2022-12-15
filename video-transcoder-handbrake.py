@@ -6,6 +6,7 @@ import os
 import sys
 
 from gooey import Gooey, GooeyParser
+from colored import stylize, attr, fg
 
 def is_video_file(file_name: str):
     return os.path.splitext(file_name)[1] in ['.avi', '.mov', '.flv', '.wmv', '.mkv']
@@ -28,7 +29,7 @@ def main():
         for filename in os.listdir(args.Directory):
             if(is_video_file(filename)):
                 line = str()
-                print(filename)
+                print(stylize(filename, attr("bold") + attr("underlined")))
                 full_path = os.path.join(args.Directory, filename)
                 profile = ["HandBrakeCLI","-i",f"{full_path}","-o",f"{os.path.splitext(full_path)[0]}.mp4","-Z",args.Quality]
                 cp = subprocess.Popen(profile, stderr=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
