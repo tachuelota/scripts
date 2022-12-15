@@ -18,7 +18,7 @@ parser.add_argument('Quality', help='Pick the quality to convert to', choices=["
 options = parser.add_argument_group('Options')
 options.add_argument('--RemoveOnFinish', help='Delete the file when converted', action="store_true", default=True, metavar='Remove file after conversion')
 
-@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True, required_cols=1,
+@Gooey(progress_regex=r"Encoding: task \d+ of \d+, (\d+\.\d\d) %", hide_progress_msg=True, required_cols=1, default_size=(610, 580),
 timing_options={
             'show_time_remaining':True,
             'hide_time_remaining_on_complete':True
