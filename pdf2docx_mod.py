@@ -35,10 +35,10 @@ def main():
         # Copy the i-th page of the original PDF to the output
         output.addPage(inputpdf.getPage(i))
         # Write the output PDF
-        with open("page_" + str(i) + ".pdf", "wb") as outputStream:
+        with open(f"page_{str(i)}.pdf", "wb") as outputStream:
             output.write(outputStream)
-        cv = Converter("page_" + str(i) + ".pdf")
-        cv.convert("page_" + str(i) + ".docx")
+        cv = Converter(f"page_{str(i)}.pdf")
+        cv.convert(f"page_{str(i)}.docx")
         cv.close()
         files_to_merge.append(f"page_{str(i)}.docx")
 
@@ -46,7 +46,7 @@ def main():
 
     for i, file in enumerate(files_to_merge):
         os.remove(file)
-        os.remove("page_" + str(i) + ".pdf")
+        os.remove(f"page_{str(i)}.pdf")
 
 if __name__ == "__main__":
     sys.exit(main())
