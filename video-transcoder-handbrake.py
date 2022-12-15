@@ -13,7 +13,7 @@ def is_video_file(file_name: str):
 parser = GooeyParser(description="Transcode all videos from a directory")
 
 parser.add_argument('Directory', help='Choose the directory to convert', widget='DirChooser')
-parser.add_argument('Quality', help='Pick the quality to convert to', choices=["Very Fast 1080p30", "Very Fast 720p30"])
+parser.add_argument('Quality', help='Pick the quality to convert to', choices=["Very Fast 1080p30", "Very Fast 720p30"], default="Very Fast 1080p30")
 options = parser.add_argument_group('Options')
 options.add_argument('--RemoveOnFinish', help='Delete the file when converted', action="store_true", default=True, metavar='Remove file after conversion')
 
