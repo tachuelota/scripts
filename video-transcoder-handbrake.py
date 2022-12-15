@@ -6,7 +6,7 @@ import os
 import sys
 
 from gooey import Gooey, GooeyParser
-from colored import stylize, attr, fg
+from colored import stylize, attr
 
 def is_video_file(file_name: str):
     return os.path.splitext(file_name)[1] in ['.avi', '.mov', '.flv', '.wmv', '.mkv']
