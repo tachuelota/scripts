@@ -14,7 +14,7 @@ jobs:
           export DEBIAN_FRONTED=noninteractive
           sudo apt-get -qq update
           sudo apt-get full-upgrade -y
-          sudo apt-get install -y wget
+          sudo apt-get install -y wget git
       - name: Install Python 3.10
         run: |
           # Setup
@@ -42,7 +42,8 @@ jobs:
           wget https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.0-cp310-cp310-linux_x86_64.whl
           pip3.10 install wxPython-4.2.0-cp310-cp310-linux_x86_64.whl
           wget -o /usr/local/bin/appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-          pip3.10 install Gooey==1.2.0a0 yt-dlp ezpyi
+          pip3.10 install yt-dlp ezpyi
+          git clone --recursive https://github.com/Xpl0itU/GooeyPlus && cd GooeyPlus && python3.10 setup.py install && cd ..
           ezpyi -A yt-dlp-gui.py yt-dlp-gui.AppImage
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v3
