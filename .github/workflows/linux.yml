@@ -30,7 +30,7 @@ jobs:
 
           # Pip
           curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
-          echo 'export PATH=/home/<USER>/.local/bin:$PATH' >>~/.profile
+          echo 'export PATH=$HOME/.local/bin:$PATH' >>~/.profile
           source ~/.profile
           pip install --upgrade pip
 
