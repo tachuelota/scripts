@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           wget -o /usr/local/bin/appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-          pip3 install Gooey yt-dlp ezpyi
+          pip3 install Gooey==1.2.0a0 yt-dlp ezpyi
           ezpyi -A yt-dlp-gui.py yt-dlp-gui.AppImage
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v3
