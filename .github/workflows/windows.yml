@@ -1,0 +1,24 @@
+name: Windows
+on: push
+
+jobs:
+  Windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Build
+        run: |
+          pip3 install pyinstaller yt-dlp
+          git clone --recursive https://github.com/Xpl0itU/GooeyPlus
+          cd GooeyPlus
+          python3 setup.py install
+          cd ..
+          pyinstaller yt-dlp-gui.py
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: yt-dlp-gui-Windows
+          path: dist/
+          if-no-files-found: warn
