@@ -18,7 +18,7 @@ jobs:
           pyinstaller yt-dlp-gui.py
           Invoke-WebRequest -URI https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip -OutFile ffmpeg.zip
           Expand-Archive ffmpeg.zip -DestinationPath ffmpeg
-          copy ffmpeg/bin/* dist/yt-dlp-gui
+          copy ffmpeg/ffmpeg-5.1.2-essentials_build/bin/* dist/yt-dlp-gui
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v3
         with:
