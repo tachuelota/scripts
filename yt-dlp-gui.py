@@ -10,7 +10,7 @@ parser = GooeyParser(description="Download videos or playlists as mp3")
 parser.add_argument('Directory', help='Choose the directory to download to', widget='DirChooser', default='download')
 parser.add_argument('URL', help='URL to download')
 
-@Gooey(default_size=(610, 590), required_cols=1, progress_regex=r"[download]: (\d+\.\d\d)%.*")
+@Gooey(default_size=(610, 590), required_cols=1, progress_regex=r"\[download]: [0-9]*\.[0-9]+%")
 def download():
     args = parser.parse_args()
     ydl_opts = {
