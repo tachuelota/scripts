@@ -10,11 +10,7 @@ jobs:
           submodules: 'recursive'
       - name: Build
         run: |
-          pip3 install pyinstaller yt-dlp
-          git clone --recursive https://github.com/Xpl0itU/GooeyPlus
-          cd GooeyPlus
-          python3 setup.py install
-          cd ..
+          pip3 install pyinstaller yt-dlp Gooey
           pyinstaller yt-dlp-gui.py
           Invoke-WebRequest -URI https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip -OutFile ffmpeg.zip
           Expand-Archive ffmpeg.zip -DestinationPath ffmpeg
